@@ -1,0 +1,17 @@
+//All Api
+
+//product
+1. get products
+2. add product
+3. filter product
+4. get One Product
+5. rate product
+6. add items to cart
+7. remove items of cart
+8.get items of cart
+
+
+
+//UserController
+1. sign up- email, password, name, TypeOfUser(seller or customer)
+2. sign in- email , password
