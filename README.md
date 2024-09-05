@@ -2,8 +2,7 @@
 ### E-commerce API
 
 ## Screenshots
-
-![https://github.com/gauravsingh906/E-COM-API/blob/main/Screenshot%20(52).png](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+https://github.com/gauravsingh906/E-COM-API/blob/main/Screenshot%20(52).png
 
 
 ## Overview
