@@ -1,6 +1,11 @@
 
 ### E-commerce API
 
+## Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
+
 ## Overview
 The E-commerce API is a RESTful service that provides functionality for managing products, users, and shopping carts in an online store. It offers secure user authentication and comprehensive product management features.
 
