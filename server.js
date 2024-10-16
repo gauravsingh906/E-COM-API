@@ -84,7 +84,7 @@ server.use((req, res) => {
 });
 
 // Specify port
-server.listen(Process.env.PORT||3500, () => {
+server.listen(process.env.PORT || 3500, () => {
     console.log("Server is running at http://localhost:3500");
     connectToMongoDB();
 });
