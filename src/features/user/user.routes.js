@@ -15,11 +15,13 @@ const userController = new UserController();
 
 userRouter.post(
     '/signup',
-    userController.signUp
+    (req, res) => {
+        userController.signUp(req, res);
+    }
 );
 userRouter.post(
     '/signin',
-    userController.signIn
+    (req, res) => { userController.signIn(req, res); }
 );
 
 

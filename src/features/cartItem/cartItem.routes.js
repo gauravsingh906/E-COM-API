@@ -14,19 +14,26 @@ const cartItemController = new CartItemController();
 // All the paths to the controller methods.
 // localhost/api/cart
 cartItemRouter.get(
-    '/',
-    cartItemController.getCart
+    '/', jwtAuth,
+    (req, res) => {
+        cartItemController.getCart(req, res)
+    }
 );
 
 cartItemRouter.post(
     '/',
 
-    cartItemController.addCart
+    (req, res) => {
+        cartItemController.addCart(req, res)
+    }
+
 );
 cartItemRouter.delete(
     '/:id',
 
-    cartItemController.deleteCart
+    (req, res) => {
+        cartItemController.deleteCart(req, res)
+    }
 );
 
 

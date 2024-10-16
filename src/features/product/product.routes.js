@@ -16,37 +16,49 @@ const productController = new ProductController();
 
 productRouter.get(
     '/', jwtAuth,
-    productController.getAllProducts
+    (req, res) => {
+        productController.getAllProducts(req, res);
+    }
 );
 productRouter.post(
     '/',
     upload.single('imageUrl'),
-    productController.addProduct);
+    (req, res) => {
+        productController.addProduct(req, res)
+    });
 
 
-productRouter.post('/rate', 
-    productController.rateProduct
-)
+productRouter.post('/rate',
+    (req, res, next) => {
+        productController.rateProduct(req, res, next)
+    });
 
 
 // localhost:4100/api/products/filter?minPrice=10&maxPrice=20&category=Category1
 //sequence of route is most important /filter pahle hoga  /:id
 productRouter.get(
     '/filter', jwtAuth,
-    productController.filterProducts
-);
+    (req, res) => {
+        productController.filterProducts(req, res)
+    });
 
 productRouter.get(
-    '/:id',
-    productController.getOneProduct
-);
+    '/averagePrice',
+    (req, res) => {
+        productController.averagePrice(req, res);
+    })
+
 
 // localhost:4100/api/products/filter?minPrice=10&maxPrice=20&category=Category1
 productRouter.get(
     '/filter',
     productController.filterProducts
 );
-
+productRouter.get(
+    '/:id',
+    (req, res) => {
+        productController.getOneProduct(req, res);
+    })
 
 
 export default productRouter;

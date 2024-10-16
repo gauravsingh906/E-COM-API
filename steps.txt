@@ -1,0 +1,3 @@
+//for built in mongodb Id
+1. counter collection (_id: 'cartItemId', value:0);
+2. while adding cartItems increament the counter and then use counter value as id to cartItem document

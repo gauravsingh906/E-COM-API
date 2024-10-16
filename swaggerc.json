@@ -3,12 +3,18 @@
     "info": {
         "title": "E-Commerce API",
         "version": "1.0.0",
-        "description": "API for managing cart items, products, and users"
+        "description": "API for managing cart items, products, orders, and users"
     },
     "servers": [
         {
-            "url": "http://localhost:3500",
-            "description": "Local development server"
+            "url": "http://localhost:{port}",
+            "description": "Local development server",
+            "variables": {
+                "port": {
+                    "default": "3500",
+                    "description": "The port on which the API is served"
+                }
+            }
         }
     ],
     "components": {
@@ -135,6 +141,21 @@
                     "email",
                     "password"
                 ]
+            },
+            "Order": {
+                "type": "object",
+                "properties": {
+                    "userID": {
+                        "type": "integer"
+                    },
+                    "totalAmount": {
+                        "type": "number"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
             }
         }
     },
@@ -414,6 +435,67 @@
                     },
                     "404": {
                         "description": "Item not found"
+                    }
+                }
+            }
+        },
+        "/api/orders": {
+            "post": {
+                "summary": "Create an order",
+                "tags": [
+                    "Orders"
+                ],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Order created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Get all orders",
+                "tags": [
+                    "Orders"
+                ],
+                "security": [
+                    {
+                        "jwt": []
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Order"
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+
 const jwtAuth = (req, res, next) => {
     //1. Read the token
 
@@ -8,13 +9,15 @@ const jwtAuth = (req, res, next) => {
     if (!token) {
         return res.status(401).send("No authorization details found");
     }
-
+    console.log(token)
     //3 check if token is valid
     try {
         //jwt.verify return payload which is present inside token
-        const payload = jwt.verify(token, '&"@5:ytRD/3x`E$UiB{B')
+
+        const payload = jwt.verify(token, process.env.JWT_SECRET)
+        console.log(payload)
         req.userId = payload.id;
-        console.log(payload);
+
     }
     catch (err) {
         //return error

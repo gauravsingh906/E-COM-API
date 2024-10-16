@@ -1,28 +1,36 @@
+import { parse } from "dotenv";
 import ProductModel from "./product.model.js";
+import ProductRepository from "./product.repository.js";
 
 export default class ProductController {
+    constructor() {
+        this.productRespository = new ProductRepository();
+    }
 
-    getAllProducts(req, res) {
-        const products = ProductModel.getAll();
+    async getAllProducts(req, res) {
+        const products = await this.productRespository.getAll();
         res.status(200).send(products);
     }
 
-    addProduct(req, res) {
-        const { name, price, sizes } = req.body;
-        const newProduct = {
-            name,
-            price: parseFloat(price),
-            sizes: sizes.split(','),
-            imageUrl: req.file.filename,
-        };
-        const createdRecord = ProductModel.add(newProduct);
+    async addProduct(req, res) {
+        const { name, price, sizes, category, desc } = req.body;
+        const newProduct = new ProductModel(
+            name, desc,
+            parseFloat(price),
+            req.file.filename, category,
+            sizes.split(','),
+        )
+
+
+        const createdRecord = await this.productRespository.add(newProduct);
         res.status(201).send(createdRecord);
     }
 
-    rateProduct(req, res, next) {
+    async rateProduct(req, res, next) {
         try {
-            const { userId, productId, rating } = reqs.query;
-            ProductModel.rateProduct(userId, productId, rating);
+            const userId = req.userId;
+            const { productId, rating } = req.body;
+            await this.productRespository.rateProduct(userId, productId, rating);
             return res.status(200).send("Successfully adding Rating");
 
         }
@@ -32,9 +40,9 @@ export default class ProductController {
         }
     }
 
-    getOneProduct(req, res) {
+    async getOneProduct(req, res) {
         const id = req.params.id;
-        const product = ProductModel.get(id);
+        const product = await this.productRespository.get(id);
         if (!product) {
             res.status(400).send("Product Not Found");
         }
@@ -42,15 +50,21 @@ export default class ProductController {
             res.status(200).send(product);
         }
     }
-    filterProducts(req, res) {
+    async filterProducts(req, res) {
         const minPrice = req.query.minPrice;
-        const maxPrice = req.query.maxPrice;
-        const category = req.query.category;
-        const result = ProductModel.filter(
+        // const maxPrice = req.query.maxPrice;
+        const categories = req.query.categories;
+
+        const result = await this.productRespository.filter(
+            //   maxPrice,
             minPrice,
-            maxPrice,
-            category
+
+            categories
         );
+        res.status(200).send(result);
+    }
+    async averagePrice(req, res) {
+        const result = await this.productRespository.averageProductPricePerCategory();
         res.status(200).send(result);
     }
 }

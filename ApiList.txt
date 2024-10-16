@@ -15,3 +15,46 @@
 //UserController
 1. sign up- email, password, name, TypeOfUser(seller or customer)
 2. sign in- email , password
+
+
+//avgPricePerCategory
+{
+    _id: cat1,
+    avgPrice:15
+}
+
+//find the average rating of product
+
+db.products.aggregate([
+    //1. create documents for ratings
+    {$unwind: "$ratings"},
+    //2. group rating per product and get product
+    {$group: {
+        _id: "$name",
+        averageRating: {
+            $avg: "$ratings.rating"
+        }
+    }}
+])
+
+//find the maximum rating product
+
+db.products.aggregate([
+    // 1. Project the name of the product and count of ratings
+    {
+        $project: {
+            name: 1,
+            countOfRating: {
+                $cond: {
+                    if: { $isArray: "$ratings" },  // Corrected the quotes and added the $ before ratings
+                    then: { $size: "$ratings" },
+                    else: 0
+                }
+            }
+        }
+    },
+    // 2. Sort the collection by countOfRating in descending order
+    { $sort: { countOfRating: -1 } },
+    // 3. Limit to just 1 item in result
+    { $limit: 1 }
+]);
